@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings
-from typing import Optional
+from typing import List
 
 class Settings(BaseSettings):
     # API Settings
@@ -8,11 +8,14 @@ class Settings(BaseSettings):
     
     # Auth0 Settings
     AUTH0_DOMAIN: str
+    AUTH0_CLIENT_ID: str
+    AUTH0_CLIENT_SECRET: str
     AUTH0_AUDIENCE: str
     
     # Google OAuth Settings
     GOOGLE_CLIENT_ID: str
     GOOGLE_CLIENT_SECRET: str
+    GOOGLE_REDIRECT_URI: str = "http://localhost:8000/api/v1/email/google/callback"
     
     # Microsoft OAuth Settings
     MICROSOFT_CLIENT_ID: str
@@ -22,10 +25,12 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str
     
     # CORS Settings
-    BACKEND_CORS_ORIGINS: list[str] = ["http://localhost:3000"]
+    BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:3000"]
     
-    class Config:
-        case_sensitive = True
-        env_file = ".env"
+    model_config = {
+        "env_file": ".env",
+        "case_sensitive": True,
+        "env_file_encoding": "utf-8"
+    }
 
 settings = Settings() 
